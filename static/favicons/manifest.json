@@ -1,5 +1,6 @@
 {
 	"name": "Bootsy Domo",
+	"start_url": "/",
 	"icons": [
 		{
 			"src": "\/static\/favicons\/android-chrome-192x192.png",
@@ -12,6 +13,7 @@
 			"type": "image\/png"
 		}
 	],
-	"theme_color": "#ffffff",
+	"theme_color": "#12FFF7",
+	"orientation": "portrait",
 	"display": "standalone"
 }
