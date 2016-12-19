@@ -22,8 +22,12 @@ if (isProduction) {
   app.use(developmentMiddleware(port, host))
 }
 
+// static files, not processed by webpack
+app.use('/static', express.static(path.resolve(__dirname, '..', config.build.static)))
+
 app.post('/switch', function (req, res) {
   sendToPin(req.body.state)
+  conso
   res.send('Got a POST request')
 })
 
