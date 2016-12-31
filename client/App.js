@@ -1,5 +1,5 @@
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import OffLineMessage from 'domain/OffLineMessage'
+import OfflineMessage from 'domain/OfflineMessage'
 import AppBar from 'material-ui/AppBar'
 import Paper from 'material-ui/Paper'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -30,7 +30,7 @@ export default class App extends Component {
             <LightSwitch label='Kitchen' id={1} />
             <LightSwitch label='Dining Room' id={1} />
           </Paper>
-          <OffLineMessage open={!isOnline} />
+          <OfflineMessage open={!isOnline} />
         </div>
       </MuiThemeProvider>
     )
