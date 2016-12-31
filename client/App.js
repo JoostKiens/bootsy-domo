@@ -1,22 +1,38 @@
-import { Component, PropTypes } from 'react'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import OffLineMessage from 'domain/OffLineMessage'
+import AppBar from 'material-ui/AppBar'
+import Paper from 'material-ui/Paper'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import styles from 'App.css'
-import postJSON from 'machinery/postJSON'
-
+import { Component, PropTypes } from 'react'
+import { deepOrange500, limeA400 } from 'material-ui/styles/colors'
+import LightSwitch from 'domain/LightSwitch'
 
 export default class App extends Component {
-  render () {
-    return (
-      <div className={styles.app}>
-        <h1>Hello world</h1>
-        <button onClick={() => this.toggle(false)}>Off</button>
-        <button onClick={() => this.toggle(true)}>On</button>
-      </div>
-    )
+  static propTypes = {
+    isOnline: PropTypes.bool.isRequired
   }
 
-  toggle (state) {
-    postJSON('/switch', { state })
-    .then(res => { console.log(res) })
-    .catch(res => { console.log(res) })
+  render () {
+    const { isOnline } = this.props
+    const muiTheme = getMuiTheme({
+      palette: {
+        accent1Color: deepOrange500,
+        accent2Color: limeA400
+      }
+    })
+
+    return (
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <div className={styles.main}>
+          <AppBar title='Bootsy Domo' showMenuIconButton={false} />
+          <Paper className={styles.paper}>
+            <LightSwitch label='Kitchen' id={1} />
+            <LightSwitch label='Dining Room' id={1} />
+          </Paper>
+          <OffLineMessage open={!isOnline} />
+        </div>
+      </MuiThemeProvider>
+    )
   }
 }

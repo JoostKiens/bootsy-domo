@@ -1,0 +1,9 @@
+@import 'theme.css';
+
+.label {
+  font-weight: var(--font-weight-light);
+}
+
+.offButton {
+  margin-right: var(--spacing-s);
+}

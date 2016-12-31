@@ -1,0 +1,6 @@
+@import 'theme.css';
+
+.paper {
+  padding: var(--spacing-m);
+  margin: var(--spacing-m);
+}

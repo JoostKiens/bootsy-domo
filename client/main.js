@@ -5,18 +5,31 @@ import Router from 'react-router/BrowserRouter'
 import config from 'config'
 import { AppContainer } from 'react-hot-loader'
 import { render } from 'react-dom'
+import injectTapEventPlugin from 'react-tap-event-plugin'
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin()
 
 if (!window.Promise) {
   window.Promise = PromisePolyfill
 }
 
+if (process.env.NODE_ENV !== 'development' && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/serviceWorker.js')
+    .then(registration => { console.log('ServiceWorker registration successful with scope: ', registration.scope) })
+    .catch(err => { console.log('ServiceWorker registration failed: ', err) })
+}
+
 renderApp(App)
+window.addEventListener('online', () => renderApp(App))
+window.addEventListener('offline', () => renderApp(App))
 
 function renderApp (MaybeApp) {
   const app = (
     <AppContainer>
       <Router>
-        <App />
+        <App isOnline={navigator.onLine} />
       </Router>
     </AppContainer>
   )

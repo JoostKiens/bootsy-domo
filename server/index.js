@@ -24,10 +24,10 @@ if (isProduction) {
 
 // static files, not processed by webpack
 app.use('/static', express.static(path.resolve(__dirname, '..', config.build.static)))
+app.use('/serviceWorker.js', express.static(path.resolve(__dirname, '..', config.build.static, 'serviceWorker.js')))
 
 app.post('/switch', function (req, res) {
   sendToPin(req.body.state)
-  conso
   res.send('Got a POST request')
 })
 

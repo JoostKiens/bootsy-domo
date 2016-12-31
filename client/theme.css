@@ -4,11 +4,14 @@
   --breakpoint-l: 960px;
   --breakpoint-xl: 1170px;
 
-  --font-family-sans-serif: 'Open Sans', sans-serif;
+  --font-family-sans-serif: 'Roboto', sans-serif;
 
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-bold: 700;
+
+  --spacing-s: 12px;
+  --spacing-m: 24px;
 }
 
 @custom-media --viewport-m all and (min-width: 768px);
