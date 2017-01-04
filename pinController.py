@@ -21,4 +21,4 @@ for line in sys.stdin:
       GPIO.output('XIO-P' + str(parsed_json['index']), GPIO.HIGH)
     else:
       print('XIO-P' + str(parsed_json['index']), 'GPIO.LOW')
-      GPIO.output('XIO-P' + parsed_json['index'], GPIO.LOW)
+      GPIO.output('XIO-P' + str(parsed_json['index']), GPIO.LOW)
