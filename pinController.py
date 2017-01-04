@@ -13,8 +13,8 @@ for line in sys.stdin:
   print(line)
   parsed_json = json.loads(line)
   if parsed_json['state']:
-    print('XIO-P' + parsed_json['index'], 'GPIO.HIGH')
-    GPIO.output('XIO-P' + parsed_json['index'], GPIO.HIGH)
+    print('XIO-P' + str(parsed_json['index']), 'GPIO.HIGH')
+    GPIO.output('XIO-P' + str(parsed_json['index']), GPIO.HIGH)
   else:
-    print('XIO-P' + parsed_json['index'], 'GPIO.LOW')
+    print('XIO-P' + str(parsed_json['index']), 'GPIO.LOW')
     GPIO.output('XIO-P' + parsed_json['index'], GPIO.LOW)

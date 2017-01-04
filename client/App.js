@@ -27,8 +27,8 @@ export default class App extends Component {
         <div className={styles.main}>
           <AppBar title='Bootsy Domo' showMenuIconButton={false} />
           <Paper className={styles.paper}>
-            <LightSwitch label='Kitchen' id={2} />
-            <LightSwitch label='Dining Room' id={1} />
+            <LightSwitch label='Kitchen' id={1} />
+            <LightSwitch label='Dining Room' id={0} />
           </Paper>
           <OfflineMessage open={!isOnline} />
         </div>
