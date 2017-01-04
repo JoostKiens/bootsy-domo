@@ -28,6 +28,8 @@ if (isProduction) {
 app.use('/static', express.static(path.resolve(__dirname, '..', config.build.static)))
 app.use('/serviceWorker.js', express.static(path.resolve(__dirname, '..', config.build.static, 'serviceWorker.js')))
 
+sendToPin(null, null, true)
+
 app.post('/switch', function (req, res) {
   sendToPin(req.body.state, req.body.index)
   res.send('Got a POST request')
@@ -42,11 +44,16 @@ function developmentMiddleware (port, host) {
   return webpackMiddleware(webpackConfig, Object.assign({}, config.webpackDevServer, port, host))
 }
 
-function sendToPin (state, index) {
+function sendToPin (state, index, reset) {
   console.log('sendToPin', state)
   const pinController = new PythonShell(pinControllerFile, { scriptPath: path.resolve(__dirname, '..') })
   // Send JSON data to script of stdin
-  pinController.send(JSON.stringify({ state, index }))
+  if (reset) {
+    pinController.send(JSON.stringify({ reset: true }))
+  } else {
+    pinController.send(JSON.stringify({ state, index, reset: false }))
+  }
+
   // Logs print statements from python script
   pinController.on('message', message => { console.log(message) })
   // Executes script

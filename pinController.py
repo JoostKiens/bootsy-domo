@@ -12,9 +12,13 @@ GPIO.setup('XIO-P1', GPIO.OUT)
 for line in sys.stdin:
   print(line)
   parsed_json = json.loads(line)
-  if parsed_json['state']:
-    print('XIO-P' + str(parsed_json['index']), 'GPIO.HIGH')
-    GPIO.output('XIO-P' + str(parsed_json['index']), GPIO.HIGH)
+  if parsed_json['reset']:
+    GPIO.output('XIO-P0', GPIO.LOW)
+    GPIO.output('XIO-P1', GPIO.LOW)
   else:
-    print('XIO-P' + str(parsed_json['index']), 'GPIO.LOW')
-    GPIO.output('XIO-P' + parsed_json['index'], GPIO.LOW)
+    if parsed_json['state']
+      print('XIO-P' + str(parsed_json['index']), 'GPIO.HIGH')
+      GPIO.output('XIO-P' + str(parsed_json['index']), GPIO.HIGH)
+    else:
+      print('XIO-P' + str(parsed_json['index']), 'GPIO.LOW')
+      GPIO.output('XIO-P' + parsed_json['index'], GPIO.LOW)
