@@ -43,6 +43,7 @@ function developmentMiddleware (port, host) {
 }
 
 function sendToPin (state) {
+  console.log('sendToPin', state)
   const pinController = new PythonShell(pinControllerFile, { scriptPath: path.resolve(__dirname, '..') })
   // Send JSON data to script of stdin
   pinController.send(JSON.stringify({ state }))

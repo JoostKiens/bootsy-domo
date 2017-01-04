@@ -9,8 +9,11 @@ import sys, json
 GPIO.setup('XIO-P0', GPIO.OUT)
 
 for line in sys.stdin:
+  print(line)
   parsed_json = json.loads(line)
   if parsed_json['state']:
+    print('GPIO.HIGH')
     GPIO.output('XIO-P0', GPIO.HIGH)
   else:
+    print('GPIO.LOW')
     GPIO.output('XIO-P0', GPIO.LOW)
