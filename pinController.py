@@ -16,7 +16,7 @@ for line in sys.stdin:
     GPIO.output('XIO-P0', GPIO.LOW)
     GPIO.output('XIO-P1', GPIO.LOW)
   else:
-    if parsed_json['state']
+    if parsed_json['state']:
       print('XIO-P' + str(parsed_json['index']), 'GPIO.HIGH')
       GPIO.output('XIO-P' + str(parsed_json['index']), GPIO.HIGH)
     else:
