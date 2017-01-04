@@ -7,13 +7,14 @@ import sys, json
 #
 # @TODO get pin setup from config
 GPIO.setup('XIO-P0', GPIO.OUT)
+GPIO.setup('XIO-P1', GPIO.OUT)
 
 for line in sys.stdin:
   print(line)
   parsed_json = json.loads(line)
   if parsed_json['state']:
-    print('GPIO.HIGH')
-    GPIO.output('XIO-P0', GPIO.HIGH)
+    print('XIO-P' + parsed_json['index'], 'GPIO.HIGH')
+    GPIO.output('XIO-P' + parsed_json['index'], GPIO.HIGH)
   else:
-    print('GPIO.LOW')
-    GPIO.output('XIO-P0', GPIO.LOW)
+    print('XIO-P' + parsed_json['index'], 'GPIO.LOW')
+    GPIO.output('XIO-P' + parsed_json['index'], GPIO.LOW)
