@@ -15,12 +15,6 @@ if (!window.Promise) {
   window.Promise = PromisePolyfill
 }
 
-if (process.env.NODE_ENV !== 'development' && 'serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/serviceWorker.js')
-    .then(registration => { console.log('ServiceWorker registration successful with scope: ', registration.scope) })
-    .catch(err => { console.log('ServiceWorker registration failed: ', err) })
-}
-
 renderApp(App)
 window.addEventListener('online', () => renderApp(App))
 window.addEventListener('offline', () => renderApp(App))

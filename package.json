@@ -4,14 +4,11 @@
   "description": "Domotica for bootsy",
   "main": "server.js",
   "scripts": {
-    "build": "npm run build:clean && npm run build:python && npm run build:static && npm run build:server && npm run build:config && npm run build:client",
+    "build": "npm run build:clean && npm run build:static && npm run build:client",
     "build:clean": "rimraf dist/* &&  ([ -d dist ] || mkdir dist)",
     "build:client": "NODE_ENV=production webpack -p --config build/webpack.config.js --bail",
-    "build:server": "NODE_ENV=production babel ./server --out-dir ./dist/server",
-    "build:python": "cp -R ./*.py ./dist/",
     "build:static": "cp -R ./static ./dist/static",
-    "build:config": "cp -R ./config ./dist/server/config",
-    "serve": "NODE_ENV=production node dist/server/index.js",
+    "serve": "NODE_ENV=production node server/index.js",
     "start": "NODE_ENV=development node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

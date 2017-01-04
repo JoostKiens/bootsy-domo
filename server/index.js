@@ -9,14 +9,16 @@ const app = express()
 const { port, host } = config.server
 const isProduction = process.env.NODE_ENV === 'production'
 const pinControllerFile = isProduction ? 'pinController.py': 'pinController.mock.py'
+console.log('using: ', pinControllerFile)
 
 app.use(historyApiFallback())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 if (isProduction) {
+  console.log(path.resolve(__dirname, '..', config.build.root, config.build.public))
   // will serve a static directory
-  app.use(express.static(path.resolve(__dirname, '..', config.build.public)))
+  app.use(express.static(path.resolve(__dirname, '..', config.build.root, config.build.public)))
 } else {
   // will serve webpack
   app.use(developmentMiddleware(port, host))
