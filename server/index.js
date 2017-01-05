@@ -1,15 +1,27 @@
-const PythonShell = require('python-shell')
 const config = require('config')
 const express = require('express')
 const historyApiFallback = require('connect-history-api-fallback')
 const path = require('path')
 const bodyParser = require('body-parser')
-const app = express()
+const spawn = require('child_process').spawn
 
+const app = express()
 const { port, host } = config.server
 const isProduction = process.env.NODE_ENV === 'production'
+let dataStream = ''
+
 const pinControllerFile = isProduction ? 'pinController.py': 'pinController.mock.py'
+const py = spawn('python', [path.resolve(__dirname, '..', pinControllerFile)])
 console.log('using: ', pinControllerFile)
+
+/*
+  Log data from stdout coming from python script
+ */
+py.stdout.on('data', data => { dataStream += data.toString() })
+py.stdout.on('end', () => {
+  console.log(dataStream)
+  dataStream = ''
+})
 
 app.use(historyApiFallback())
 app.use(bodyParser.json())
@@ -28,8 +40,6 @@ if (isProduction) {
 app.use('/static', express.static(path.resolve(__dirname, '..', config.build.static)))
 app.use('/serviceWorker.js', express.static(path.resolve(__dirname, '..', config.build.static, 'serviceWorker.js')))
 
-sendToPin(null, null, true)
-
 app.post('/switch', function (req, res) {
   sendToPin(req.body.state, req.body.index)
   res.send('Got a POST request')
@@ -40,22 +50,15 @@ app.listen(port, host)
 function developmentMiddleware (port, host) {
   const webpackConfig = require('../build/webpack.config')
   const webpackMiddleware = require('./middleware/webpackMiddleware')
-
   return webpackMiddleware(webpackConfig, Object.assign({}, config.webpackDevServer, port, host))
 }
 
-function sendToPin (state, index, reset) {
-  console.log('sendToPin', state)
-  const pinController = new PythonShell(pinControllerFile, { scriptPath: path.resolve(__dirname, '..') })
-  // Send JSON data to script of stdin
-  if (reset) {
-    pinController.send(JSON.stringify({ reset: true }))
-  } else {
-    pinController.send(JSON.stringify({ state, index, reset: false }))
-  }
+function sendToPin (state, index) {
+  console.log('sendToPin', { state, index })
+  sendJsonToPy({ state, index })
+}
 
-  // Logs print statements from python script
-  pinController.on('message', message => { console.log(message) })
-  // Executes script
-  pinController.end(err => { if (err) throw err })
+function sendJsonToPy (json) {
+  py.stdin.write(JSON.stringify(json))
+  py.stdin.end()
 }
