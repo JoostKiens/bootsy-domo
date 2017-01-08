@@ -20,7 +20,7 @@ if (isProduction) {
     io: new chipio()
   })
 
-  ipns = config.lights.map(l => new five.Pin(l.pinOut, 1))
+  pins = config.lights.map(l => new five.Pin(l.pinOut, 1))
 
   board.on('ready', function() {
     // will serve a static directory
