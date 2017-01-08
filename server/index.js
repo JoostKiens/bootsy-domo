@@ -11,14 +11,25 @@ const isProduction = process.env.NODE_ENV === 'production'
 let dataStream = ''
 
 const pinControllerFile = isProduction ? 'pinController.py': 'pinController.mock.py'
-const py = spawn('python', [path.resolve(__dirname, '..', pinControllerFile)])
-console.log('using: ', pinControllerFile)
+//const py = spawn('python', [path.resolve(__dirname, '..', pinControllerFile)])
+//const child = spawn('unbuffer', ['-p', py])
+const child = spawn('unbuffer', ['python', path.resolve(__dirname, '..', pinControllerFile)])
 
+child.stdin.setEncoding('utf-8')
+console.log('using: ', pinControllerFile, child)
 /*
   Log data from stdout coming from python script
  */
-py.stdout.on('data', data => { dataStream += data.toString() })
-py.stdout.on('end', () => {
+child.stdout.on('data', data => {
+  console.log(data.toString())
+  dataStream += data.toString()
+})
+
+child.stdout.on('message', data => {
+  console.log(data.toString())
+  dataStream += data.toString()
+})
+child.stdout.on('end', () => {
   console.log(dataStream)
   dataStream = ''
 })
@@ -59,6 +70,5 @@ function sendToPin (state, index) {
 }
 
 function sendJsonToPy (json) {
-  py.stdin.write(JSON.stringify(json))
-  py.stdin.end()
+  child.stdin.write(JSON.stringify(json))
 }
