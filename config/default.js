@@ -32,5 +32,16 @@ module.exports = {
     root: 'dist',
     public: 'public',
     static: 'static'
-  }
+  },
+
+  lights: [
+    {
+      name: 'Kitchen',
+      pinOut: 'XIO-P0'
+    },
+    {
+      name: 'Dining room',
+      pinOut: 'XIO-P1'
+    }
+  ]
 }
